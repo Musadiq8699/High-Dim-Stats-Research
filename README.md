@@ -58,3 +58,12 @@ The penalty parameter ($\lambda$) balances a two-player game between data fit ($
                      │
                      ▼
              [Holdout Evaluation] ──► Unvault 20% Test Set for unbiased generalization check
+
+
+
+## Daily Research Insights
+
+* **June 4, 2026:** Initiated high-dimensional statistics literature review focusing on Tibshirani (1996). Decoded the foundational trade-offs between Ordinary Least Squares (OLS), Best-Subset Selection, and Regularization methods, noting the structural limitations of non-zero weight footprints regarding background noise accumulation.
+* **June 5, 2026:** Analyzed the algebraic mechanics of the Lasso objective function. Documented how the shorthand prediction variable ($\hat{y}_i$) unrolls into its explicit feature-weight matrix inside the residual brackets, mapping how the penalty acts directly on the parameters.
+* **June 6, 2026:** Explored the geometric proofs of sparsity. Mapped the physical interaction between expanding data error contours ($\text{RSS}$) and the regularized budget boundaries ($t$), contrasting the sharp, axis-aligned vertices of the $L_1$ diamond against the smooth tangent shoulders of the $L_2$ circle.
+* **June 7, 2026:** Scaled the geometric model to high-dimensional sparse spaces ($p=45$). Established the complete 5-step Machine Learning Engineering Pipeline, detailing how a leakage-free $K$-Fold Cross-Validation routine isolates optimal $\lambda$ parameters ($\lambda_{\min}$ and $\lambda_{1\text{SE}}$) empirically without needing analytical Degrees of Freedom ($d$).
