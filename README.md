@@ -4,7 +4,7 @@
 
 | Citation Key | Core Methodology | Main Advantage | Critical Limitation / Gap |
 | :--- | :--- | :--- | :--- |
-| `tibshirani1996regression` | **$L_1$ Regularization Penalty:** Adds an absolute weight constraint to the loss function: $\lambda \sum_{j=1}^p |\beta_j|$. Enforces an axis-aligned cross-polytope (hyper-diamond) budget space. | **Simultaneous Variable Selection & Shrinkage:** Geometrically forces unneeded coefficients to hit absolute zero, automating feature selection and eliminating background noise. | **Collinearity Instability:** When features are highly correlated, the loss landscape becomes a degenerate ridge, causing Lasso to pick one variable arbitrarily and ignore the others. |
+| `tibshirani1996regression` | **L1 Regularization Penalty:** Adds an absolute weight constraint [lambda * sum(abs(beta))] to the loss function. Enforces an axis-aligned hyper-diamond budget space. | **Simultaneous Variable Selection & Shrinkage:** Enforces true sparsity by catching expanding error contours right on its sharp multidimensional vertices, driving noisy coefficients to absolute zero. | **Collinearity Instability:** If features are highly correlated (e.g., adjacent pixel blocks), the geometric error ellipsoid becomes a flat tunnel, causing Lasso to select one feature arbitrarily. |
 
 ### Foundational Comparison of Regulators
 * **Ordinary Least Squares (OLS):** Achieves zero training bias by minimizing raw Residual Sum of Squares (RSS). However, it suffers from massive variance (overfitting) and becomes completely mathematically indeterminate in high-dimensional settings where the number of features exceeds the observations ($p > n$).
