@@ -58,7 +58,7 @@ The penalty parameter ($\lambda$) balances a two-player game between data fit ($
                      │
                      ▼
              [Holdout Evaluation] ──► Unvault 20% Test Set for unbiased generalization check
-
+```
 
 
 ## Daily Research Insights
