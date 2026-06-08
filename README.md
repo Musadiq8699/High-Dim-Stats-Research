@@ -78,9 +78,9 @@ Tibshirani uses Section 2.2 to draw a flawless mathematical contrast between the
 
 | Framework | Analytical Operator | Operational Profile |
 | :--- | :--- | :--- |
-| **Best Subset** | $\hat{\beta}_j^o \cdot I(|\hat{\beta}_j^o| > \lambda)$ | **Hard Thresholding:** Binary gatekeeper. Leaves strong features un-regularized while dropping weak ones violently. Causes high variance due to edge discontinuities. |
-| **Ridge** | $\frac{1}{1 + \gamma} \hat{\beta}_j^o$ | **Proportional Scaling:** Smoothly divides all weights by a constant fraction. Shrinks magnitudes uniformly but is physically incapable of achieving absolute zero. |
-| **Lasso** | $\text{sign}(\hat{\beta}_j^o)(|\hat{\beta}_j^o| - \gamma)^+$ | **Soft Thresholding:** Continuous clip-and-shift. Translates all active weights downward smoothly, cleanly snapping noise parameters to zero once they cross the threshold. |
+| **Best Subset** | beta_j = beta_j_OLS * I(\|beta_j_OLS\| > lambda) | **Hard Thresholding:** Binary gatekeeper. Leaves strong features completely un-regularized while dropping weak ones violently. Causes high variance due to edge discontinuities. |
+| **Ridge** | beta_j = beta_j_OLS / (1 + gamma) | **Proportional Scaling:** Smoothly divides all weights by a constant fraction. Shrinks magnitudes uniformly but is physically incapable of achieving absolute zero. |
+| **Lasso** | beta_j = sign(beta_j_OLS) * max(0, \|beta_j_OLS\| - gamma) | **Soft Thresholding:** Continuous clip-and-shift. Translates all active weights downward smoothly, cleanly snapping noise parameters to zero once they cross the threshold. |
 
 ---
 
@@ -102,6 +102,6 @@ Modern frameworks resolve this using **Coordinate Descent**, an iterative algori
 * **June 4, 2026:** Initiated high-dimensional statistics literature review focusing on Tibshirani (1996). Decoded the foundational trade-offs between Ordinary Least Squares (OLS), Best-Subset Selection, and Regularization methods, noting the structural limitations of non-zero weight footprints regarding background noise accumulation.
 * **June 5, 2026:** Analyzed the algebraic mechanics of the Lasso objective function. Documented how the shorthand prediction variable ($\hat{y}_i$) unrolls into its explicit feature-weight matrix inside the residual brackets, mapping how the penalty acts directly on the parameters.
 * **June 6, 2026:** Explored the geometric proofs of sparsity. Mapped the physical interaction between expanding data error contours ($\text{RSS}$) and the regularized budget boundaries ($t$), contrasting the sharp, axis-aligned vertices of the $L_1$ diamond against the smooth tangent shoulders of the $L_2$ circle.
-* **June 7, 2026:** Scaled the geometric model to high-dimensional sparse spaces ($p=45$). Established the complete 5-step Machine Learning Engineering Pipeline, detailing how a leakage-free $K$-Fold Cross-Validation routine isolates optimal $\lambda$ parameters ($\lambda_{\min}$ and $\lambda_{1\text{SE}}$) empirically without needing analytical Degrees of Freedom ($d$).
+* **June 7, 2026:** Scaled the geometric model to high-dimensional sparse spaces ($p=45$). Established the complete 5-step Machine Learning Engineering Pipeline, detailing how a leakage-free $K$-Fold Cross-Validation routine isolates optimal $\lambda$ parameters ($\lambda_{\min}$ and $\lambda_{1\text{SE}}$) empirically without needing analytical Degrees of Freedom (d).
 
 * **June 8, 2026:** Conducted exhaustive mathematical deconstruction of Section 2.2 (Orthonormal Design Case). Mapped the analytical operations of Hard Thresholding, Proportional Scaling, and Soft Thresholding. Isolated the breakdown mechanics of standard gradient descent on non-differentiable corners and documented how the Coordinate Descent engine uses partial residuals to deploy closed-form shortcuts cyclically across optimization epochs.
