@@ -60,6 +60,42 @@ The penalty parameter ($\lambda$) balances a two-player game between data fit ($
              [Holdout Evaluation] ──► Unvault 20% Test Set for unbiased generalization check
 ```
 
+### 4. Technical Deep-Dive: Section 2.2 — The Orthonormal Design Case
+Under the idealized laboratory condition where features are perfectly independent and normalized, the cross-product matrix collapses into an Identity Matrix:
+
+$$X^T X = I$$
+
+This algebraic condition decouples the features entirely, eliminating multi-collinearity and turning a massive multi-dimensional optimization puzzle into $p$ separate, 1-dimensional problems. Under these conditions, Lasso yields a direct, one-step mathematical shortcut known as the **Soft Thresholding Operator**:
+
+$$\hat{\beta}_j^{\text{Lasso}} = \text{sign}(\hat{\beta}_j^{\text{OLS}}) \max(0, |\hat{\beta}_j^{\text{OLS}}| - \gamma)$$
+
+* **The `sign()` Extractor:** Evaluates whether the baseline Ordinary Least Squares (OLS) weight is positive ($+1$) or negative ($-1$), ensuring the direction of the relationship is preserved and never reversed.
+* **The Continuous Translation ($-\gamma$):** Applies a uniform regularization "tax" ($\gamma = \frac{\lambda}{2}$) across the absolute magnitude of all features.
+* **The Positive-Part Trap $(\dots)^+$:** If the deduction drops the weight's magnitude below zero, the $\max(0, \dots)$ mechanism instantly clips it to **absolute zero**, performing automated feature selection.
+
+#### Framework Operator Matrix (Under $X^T X = I$)
+Tibshirani uses Section 2.2 to draw a flawless mathematical contrast between the three dominant estimation methods:
+
+| Framework | Analytical Operator | Operational Profile |
+| :--- | :--- | :--- |
+| **Best Subset** | $\hat{\beta}_j^o \cdot I(|\hat{\beta}_j^o| > \lambda)$ | **Hard Thresholding:** Binary gatekeeper. Leaves strong features un-regularized while dropping weak ones violently. Causes high variance due to edge discontinuities. |
+| **Ridge** | $\frac{1}{1 + \gamma} \hat{\beta}_j^o$ | **Proportional Scaling:** Smoothly divides all weights by a constant fraction. Shrinks magnitudes uniformly but is physically incapable of achieving absolute zero. |
+| **Lasso** | $\text{sign}(\hat{\beta}_j^o)(|\hat{\beta}_j^o| - \gamma)^+$ | **Soft Thresholding:** Continuous clip-and-shift. Translates all active weights downward smoothly, cleanly snapping noise parameters to zero once they cross the threshold. |
+
+---
+
+### 5. Architectural Optimization: The Coordinate Descent Engine
+While Section 2.2 relies on the closed-form shortcut for independent features, real-world data contains heavily correlated features ($X^T X \neq I$). In these practical settings, standard gradient descent completely fails because the absolute value penalty ($| \beta |$) creates a non-differentiable corner at $\beta_j = 0$, causing the algorithm to overshoot and bounce endlessly across the zero-axis line.
+
+Modern frameworks resolve this using **Coordinate Descent**, an iterative algorithm that optimizes the system one dimension at a time:
+
+```text
+┌──► [Epoch Loop] Isolate b1 (Freeze b2...bp) ──► Calculate Partial Residual (r) ──┐
+│                                                                                  │
+└─── Lock New b1 Value ◄── Apply Equation 3 Shortcut ◄── Treat as Independent ────┘
+
+
+
 
 ## Daily Research Insights
 
@@ -67,3 +103,5 @@ The penalty parameter ($\lambda$) balances a two-player game between data fit ($
 * **June 5, 2026:** Analyzed the algebraic mechanics of the Lasso objective function. Documented how the shorthand prediction variable ($\hat{y}_i$) unrolls into its explicit feature-weight matrix inside the residual brackets, mapping how the penalty acts directly on the parameters.
 * **June 6, 2026:** Explored the geometric proofs of sparsity. Mapped the physical interaction between expanding data error contours ($\text{RSS}$) and the regularized budget boundaries ($t$), contrasting the sharp, axis-aligned vertices of the $L_1$ diamond against the smooth tangent shoulders of the $L_2$ circle.
 * **June 7, 2026:** Scaled the geometric model to high-dimensional sparse spaces ($p=45$). Established the complete 5-step Machine Learning Engineering Pipeline, detailing how a leakage-free $K$-Fold Cross-Validation routine isolates optimal $\lambda$ parameters ($\lambda_{\min}$ and $\lambda_{1\text{SE}}$) empirically without needing analytical Degrees of Freedom ($d$).
+
+* **June 8, 2026:** Conducted exhaustive mathematical deconstruction of Section 2.2 (Orthonormal Design Case). Mapped the analytical operations of Hard Thresholding, Proportional Scaling, and Soft Thresholding. Isolated the breakdown mechanics of standard gradient descent on non-differentiable corners and documented how the Coordinate Descent engine uses partial residuals to deploy closed-form shortcuts cyclically across optimization epochs.
